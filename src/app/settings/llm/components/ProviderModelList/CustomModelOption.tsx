@@ -22,10 +22,12 @@ const CustomModelOption = memo<CustomModelOptionProps>(({ id, provider }) => {
   const { t: s } = useTranslation('setting');
   const { modal } = App.useApp();
 
-  const [dispatchCustomModelCards, toggleEditingCustomModelCard] = useGlobalStore((s) => [
-    s.dispatchCustomModelCards,
-    s.toggleEditingCustomModelCard,
-  ]);
+  const [dispatchCustomModelCards, toggleEditingCustomModelCard, removeEnabledModels] =
+    useGlobalStore((s) => [
+      s.dispatchCustomModelCards,
+      s.toggleEditingCustomModelCard,
+      s.removeEnabledModels,
+    ]);
   const modelCard = useGlobalStore(
     modelConfigSelectors.getCustomModelCardById({ id, provider }),
     isEqual,
@@ -68,8 +70,10 @@ const CustomModelOption = memo<CustomModelOptionProps>(({ id, provider }) => {
               type: 'warning',
             });
 
+            // delete model and deactive id
             if (isConfirm) {
-              dispatchCustomModelCards(provider, { id, type: 'delete' });
+              await dispatchCustomModelCards(provider, { id, type: 'delete' });
+              await removeEnabledModels(provider, id);
             }
           }}
           title={t('delete')}

@@ -106,11 +106,6 @@ export const DEFAULT_LLM_CONFIG: GlobalLLMConfig = {
     enabledModels: filterEnabledModels(OllamaProvider),
     endpoint: '',
   },
-  openAI: {
-    OPENAI_API_KEY: '',
-    enabled: true,
-    enabledModels: filterEnabledModels(OpenAIProvider),
-  },
   openai: {
     apiKey: '',
     enabled: false,
